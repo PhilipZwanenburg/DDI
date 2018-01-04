@@ -4,6 +4,7 @@
 	<tr>
 		<th>Branch</th>
 		<th>Version</th>
+		<th>Linux</th>
 		<th>Coverage</th>
 		<th>Documentation</th>
 	</tr>
@@ -17,6 +18,12 @@
 			<a href="https://badge.fury.io/">
 				<img src="https://badge.fury.io/gh/PhilipZwanenburg%2FDDI.svg"
 				     title="version">
+			</a>
+		</th>
+		<th>
+			<a href="https://travis-ci.org/PhilipZwanenburg/DDI">
+				<img src="https://travis-ci.org/PhilipZwanenburg/DDI.svg?branch=master"
+				     title="build status">
 			</a>
 		</th>
 		<th>
