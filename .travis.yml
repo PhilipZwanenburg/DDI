@@ -44,6 +44,8 @@ addons:
 #    - lld-6.0
     - lcov
     - valgrind
+    - texlive-full
+    - texlive-bibtex-extra
 os:
   - linux
 language: cpp
