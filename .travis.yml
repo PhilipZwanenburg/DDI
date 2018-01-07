@@ -37,15 +37,18 @@ addons:
     #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
     sources:
     - ubuntu-toolchain-r-test
+    - deadsnakes
     packages:
+    - python3.5
     - g++-7
 #    - clang-6.0
 #    - lldb-6.0
 #    - lld-6.0
     - lcov
     - valgrind
-    - texlive-full
-    - texlive-bibtex-extra
+    - texlive-base
+#    - texlive-full
+#    - texlive-bibtex-extra
 os:
   - linux
 language: cpp
@@ -55,7 +58,7 @@ compiler:
 script: ./travis.sh
 env:
   matrix:
-    - DDI_CMAKE_RUN=ubuntu16-04_gcc_debug_coverage
+    - ENVIRONMENT="ubuntu16-04" CMAKE_PARAMETERS="coverage gcc"
 
 after_success:
     # Creating report
