@@ -46,8 +46,7 @@ addons:
 #    - lld-6.0
     - lcov
     - valgrind
-    - texlive-base
-#    - texlive-full
+    - texlive-full # latex not found with texlive-base
 #    - texlive-bibtex-extra
 os:
   - linux
