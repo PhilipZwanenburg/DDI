@@ -6,7 +6,7 @@ CMAKE_RUN=${TOP_DIR}/cmake/run/
 
 # Run `cmake`
 cd $CMAKE_RUN
-python3 ${ENVIRONMENT}.py ${CMAKE_PARAMETERS}
+python3.5 ${ENVIRONMENT}.py ${CMAKE_PARAMETERS}
 
 # Compile and execute various make targets
 cd ${TOP_DIR}/build
