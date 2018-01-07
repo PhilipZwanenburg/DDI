@@ -1,4 +1,4 @@
-# Welcome to (D)ata-(D)riven (I)nvesting!
+# Welcome to Data-Driven Investing!
 
 <table>
 	<tr>
@@ -90,7 +90,7 @@ Financial data has been obtained from [nasdaq.com](http://www.nasdaq.com/symbol)
 
 #### Example Result
 
-/** \todo Add result when available. */
+/// \todo Add result when available.
 
 ---
 
@@ -135,7 +135,7 @@ BUILD/doc/html$ firefox index.html
 
 ### Running the Code
 
-/** \todo Modify after implementing. Use python script files. */
+/// \todo Modify after implementing. Use python script files.
 
 ### Testing
 
