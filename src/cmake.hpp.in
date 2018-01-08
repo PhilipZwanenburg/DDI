@@ -12,29 +12,20 @@ License for more details.
 You should have received a copy of the GNU General Public License along with DDI.  If not, see
 <http://www.gnu.org/licenses/>.
 }}} */
+#ifndef DDI__cmake_hpp__INCLUDED
+#define DDI__cmake_hpp__INCLUDED
 /** \file
- *  This file should evantually be replaced with individual test/example main files.
+ *  \brief Provides CMake build parameters.
  */
 
-#include <iostream>
 #include <string>
-#include <cmath>
 
-#include "macros.hpp"
+namespace ddi {
 
-using namespace std;
+///\{ \name CMake parameters.
+const std::string PROJECT_SOURCE_DIR {"@PROJECT_SOURCE_DIR@"};
+///\}
 
+} // end namespace ddi
 
-/** \brief Main function used for data-driven investment return prediction.
- *  \return 0 on success. */
-int main
-	(int nargc,  ///< Standard.
-	 char** argv ///< Standard.
-	)
-{
-	UNUSED(nargc);
-	UNUSED(argv);
-	cout << "Hello c++!\n";
-
-	return 0;
-}
+#endif // DDI__cmake_hpp__INCLUDED

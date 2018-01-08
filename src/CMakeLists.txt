@@ -9,6 +9,22 @@ if (CODE_COVERAGE_DDI)
 endif()
 
 
+configure_file_hpp_in(${PROJECT_SOURCE_DIR}/src/ cmake.hpp.in)
+add_include_directories()
+
+
+set	(SOURCE
+	 core.cpp
+	)
+
+set	(LIBS_DEPEND
+	)
+
+set(LIB Core)
+add_library(${LIB} STATIC ${SOURCE})
+target_link_libraries(${LIB} PRIVATE ${LIBS_DEPEND})
+
+
 add_subdirectory(testing)
 
 include_directories(

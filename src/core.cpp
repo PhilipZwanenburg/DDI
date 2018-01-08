@@ -12,23 +12,22 @@ License for more details.
 You should have received a copy of the GNU General Public License along with DDI.  If not, see
 <http://www.gnu.org/licenses/>.
 }}} */
-#ifndef DDI__macros_hpp__INCLUDED
-#define DDI__macros_hpp__INCLUDED
 /** \file
- *  \brief Defines macros.
  */
+
+#include "core.hpp"
+
+#include <vector>
+#include <string>
 
 namespace ddi {
 
-/** \brief Macro to silence `unused variable` compile warning.
- *
- *  Taken from [this SO answer][SO_unused].
- *
- *  <!-- References: -->
- *  [SO_unused]: https://stackoverflow.com/questions/1486904/how-do-i-best-silence-a-warning-about-unused-variables
- */
-#define UNUSED(expr) do { (void)(expr); } while (0)
+std::vector<std::string> arguments(int argc, char** argv)
+{
+	std::vector<std::string> res;
+	for (int i = 0; i != argc; ++i)
+		res.push_back(argv[i]);
+	return res;
+}
 
 } // end namespace ddi
-
-#endif // DDI__macros_hpp__INCLUDED
