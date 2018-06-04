@@ -14,3 +14,5 @@ information (i.e. buy low, sell high).
 ## Hard
 
 # Tests
+
+unit testing for python: https://docs.python.org/3/library/unittest.html

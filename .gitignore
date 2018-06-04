@@ -2,3 +2,4 @@
 *.csv#
 
 build/*
+!build/README.md
