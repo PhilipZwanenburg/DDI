@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 #
 # This file is part of DDI.
 #
@@ -10,12 +10,11 @@
 #
 # You should have received a copy of the GNU General Public License along with DDI. If not, see
 # <http://www.gnu.org/licenses/>.
-## \file
+# \file
 
 # reference: http://www.blackarbs.com/blog/how-to-scrape-and-parse-600-etf-options-in-10-mins-with-python-and-asyncio/5/18/2017
 # code: https://gist.github.com/BlackArbsCEO
 
-# Possibly follow pandas_datareader for python related project functionality (build testing/documentation): https://github.com/pydata/pandas-datareader
 
 import os
 import sys
@@ -26,7 +25,7 @@ import time
 import asyncio
 from fake_useragent import UserAgent
 '''set path variables'''
-project_dir = "/home/pzwan/Desktop/c++/DDI/src/" ###< \todo Make this general
+project_dir = "/home/pzwan/Desktop/c++/DDI/src/"  # < \todo Make this general
 sys.path.append(project_dir)
 
 import async_option_scraper
@@ -39,12 +38,12 @@ print('\nAsync Barchart Scraper starting...')
 # --------------- \\\
 # import symbols
 FILE = project_dir + 'ETFList.Options.Nasdaq__M.csv'
-ALL_ETFS =  pd.read_csv(FILE)['Symbol']
+ALL_ETFS = pd.read_csv(FILE)['Symbol']
 #drop_symbols = ['ADRE', 'AUNZ', 'CGW', ]
 #ETFS = [x for x in ALL_ETFS if x not in set(drop_symbols)]
 keep_symbols = ['IYW', 'VXX', 'XLF', ]
 ETFS = [x for x in ALL_ETFS if x in set(keep_symbols)]
-print("ETFs:",ETFS)
+print("ETFs:", ETFS)
 
 # ================================================
 # GET HTML SOURCE FOR LAST SYMBOL EQUITY PRICE
@@ -59,9 +58,9 @@ px_run_future = asyncio.ensure_future(px_scraper.run(ETFS))
 loop.run_until_complete(px_run_future)
 px_run = px_run_future.result()
 # ------------- ///
-duration_price =  time.time() - t0_price
+duration_price = time.time() - t0_price
 print('\nprice scraper script run time: ',
-    pd.to_timedelta(duration_price, unit='s'))
+      pd.to_timedelta(duration_price, unit='s'))
 # ------------- ///
 # create price dictionary
 px_dict = {}
@@ -82,9 +81,9 @@ first_run_future = asyncio.ensure_future(first_scraper.run(ETFS, ua.random))
 loop.run_until_complete(first_run_future)
 first_run = first_run_future.result()
 # ------------- ///
-first_duration =  time.time() - t0_first
+first_duration = time.time() - t0_first
 print('\nfirst async scraper script run time: ',
-    pd.to_timedelta(first_duration, unit='s'))
+      pd.to_timedelta(first_duration, unit='s'))
 
 # ================================================
 # EXTRACT EXPIRYS FROM FIRST RUN SCRAPER
@@ -113,15 +112,15 @@ for symbol in ETFS:
         xp_loop = asyncio.get_event_loop()
         xp_future = asyncio.ensure_future(
             xp_scraper.xp_run(symbol, expirys[symbol], ua.random)
-            )
+        )
         xp_loop.run_until_complete(xp_future)
         sym_xp_dict[symbol] = xp_future.result()
     except Exception as e:
         print(symbol + ' error: ' + e)
 # ------------- ///
-duration_xp =  time.time() - t0_xp
+duration_xp = time.time() - t0_xp
 print('\nall async scraper script run time: ',
-    pd.to_timedelta(duration_xp, unit='s'))
+      pd.to_timedelta(duration_xp, unit='s'))
 
 # ================================================
 # PARSE ALL COLLECTED DATA
@@ -146,16 +145,17 @@ for symbol, xp_list in sym_xp_dict.items():
                     parser.extract_last_price(px_dict[symbol]),
                     len(concat.index))
                 list_dfs_by_expiry.append(concat)
-            except: continue
+            except:
+                continue
     except Exception as e:
         print(f'symbol: {symbol}\n error: {e}')
         print()
         continue
     all_etfs_data.append(pd.concat(list_dfs_by_expiry, axis=0))
 # ------------- ///
-duration_agg =  time.time() - t0_agg
+duration_agg = time.time() - t0_agg
 print('\nagg parse data script run time: ',
-    pd.to_timedelta(duration_agg, unit='s'))
+      pd.to_timedelta(duration_agg, unit='s'))
 # -------------- \\\
 dfx = pd.concat(all_etfs_data, axis=0).reset_index(drop=True)
 print(dfx.info())
@@ -168,21 +168,26 @@ print('\nCollecting missing prices...')
 grp = dfx.groupby(['symbol'])['underlyingPrice'].count()
 missing_symbol_prices = grp[grp == 0].index
 
-get_price = lambda symbol: web.DataReader(
-#    symbol, 'google', today)['Close']  # The google API was deprecated due to being unstable.
-    symbol, 'yahoo', today)['Close']
-prices = []
-for symbol in missing_symbol_prices:
-    px = get_price(symbol).iloc[0]
-    prices.append((symbol, px))
+num_missing = len(missing_symbol_prices)
 
-df_prices = pd.DataFrame(prices).set_index(0)
-for symbol in df_prices.index:
-    (dfx.loc[dfx['symbol'] == symbol,
-         ['underlyingPrice']]) = df_prices.loc[symbol].iloc[0]
+if (num_missing > 0):
+    def get_price(symbol): return web.DataReader(
+        #    symbol, 'google', today)['Close']  # The google API was deprecated due to being unstable.
+        symbol, 'yahoo', today)['Close']
+    prices = []
+    for symbol in missing_symbol_prices:
+        px = get_price(symbol).iloc[0]
+        prices.append((symbol, px))
 
-dfx['underlyingPrice'] = dfx.underlyingPrice.astype(float)
-print('\nmissing prices added')
+        df_prices = pd.DataFrame(prices).set_index(0)
+        for symbol in df_prices.index:
+            (dfx.loc[dfx['symbol'] == symbol, ['underlyingPrice']]
+             ) = df_prices.loc[symbol].iloc[0]
+
+            dfx['underlyingPrice'] = dfx.underlyingPrice.astype(float)
+            print('\nmissing prices added')
+else:
+    print("\nNo missing prices to add.")
 
 # ================================================
 # store dataframe as hdf
@@ -190,7 +195,7 @@ print('\nmissing prices added')
 print(dfx.head(20))
 print(dfx.info())
 
-file_duration =  time.time() - file_start
+file_duration = time.time() - file_start
 print('\nfile script run time: ', pd.to_timedelta(file_duration, unit='s'))
 
 file_ = project_dir + f'/ETF_options_data_{today}.csv'

@@ -1,3 +1,7 @@
+# Coding Goals
+
+\todo Follow scikit-learn for python related project functionality (build testing/documentation): https://github.com/scikit-learn/scikit-learn
+
 # Implementation Goals
 
 ## Easy
