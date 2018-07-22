@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# ONLY WORKS FOR A LIMITED SELECTION OF ETFs...
+
 import time
 t0 = time.clock()
 
@@ -68,6 +70,8 @@ def get_minute_data():
     try:
         for i, sym in enumerate(syms, start=1):
             api_url = construct_barChart_url(sym, start, freq, api_key=apikey)
+            # print(api_url)
+            # EXIT
             try:
                 csvfile = pd.read_csv(api_url, parse_dates=['timestamp'])
                 csvfile.set_index('timestamp', inplace=True)
