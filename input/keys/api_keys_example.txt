@@ -1,0 +1,4 @@
+# This is an example file. Please create a copy of this file called "api_keys.txt" and substitute
+# your custom api key values.
+
+key__alpha_vantage your_key_here

@@ -18,8 +18,8 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
 
 ((nil . ((fill-column . 100)
-         (eval . (add-hook 'python-mode-local-vars-hook  (lambda () (modify-syntax-entry ?_ "w")))) ; Make _ symbols count as part of words in c-mode.
+         (eval . (add-hook 'python-mode-local-vars-hook  (lambda () (modify-syntax-entry ?_ "w")))) ; Make _ symbols count as part of words.
          )
       )
- ;; (c-mode (helm-make-build-dir . "build_targets"))
+ (c-mode (helm-make-build-dir . ""))
  )
